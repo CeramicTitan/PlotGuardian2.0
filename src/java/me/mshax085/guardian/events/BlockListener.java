@@ -2,15 +2,33 @@ package java.me.mshax085.guardian.events;
 
 import java.me.mshax085.guardian.PlotGuardian;
 import java.me.mshax085.guardian.protection.PlotManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+
+
+public static int GetNumPlotsCanClaim(CommandSender cs)
+{
+        int plotsCanClaim = 2;
+        if (p.hasPermission("plotguardian.resident")) plotsCanClaim = 3;
+        if (p.hasPermission("plotguardian.iron")) plotsCanClaim = 4;
+        if (p.hasPermission("plotguardian.silver")) plotsCanClaim = 5;
+        if (p.hasPermission("plotguardian.gold")) plotsCanClaim = 6;
+        if (p.hasPermission("plotguardian.diamond")) plotsCanClaim = 7;
+        if (p.hasPermission("plotguardian.wizard")) plotsCanClaim = 8;
+        if (p.hasPermission("plotguardian.sorceror")) plotsCanClaim = 10;
+        if (p.isOp()) plotsCanClaim = 999;
+
+        return plotsCanClaim;
+}
 
 public class BlockListener implements Listener {
 
@@ -30,13 +48,13 @@ public class BlockListener implements Listener {
 		PlotManager manager = this.guardian.getPlotDatabase().getPlotManager();
 		 // Verify player has a spot available...
         PlotManager pm = p.getPlotManager();
-        int plotsCanClaim = GetNumPlotsCanClaim(p);
+        int plotsCanClaim = guardian.GetNumPlotsCanClaim(p);
         int plotsOwned = pm.getPlotAmountOwnedByPlayer(p.getName());
         if (plotsOwned >= plotsCanClaim) {
                 p.sendMessage(ChatColor.RED + "[PlotGuardian] You may only claim " + plotsCanClaim + " plots! You currently own " + plotsOwned + ".");
                 return true;
         }
-		if (manager.getPlotAmountOwnedByPlayer(p.getName()) < this.guardian.claimablePlotsPerUser) {
+		if (manager.getPlotAmountOwnedByPlayer(p.getName()) < plotsCanClaim) {
 		    String plotname = manager.isInsidePlot(e.getBlock().getLocation());
 		    if (plotname != null) {
 			if (manager.isPlotForSale(plotname)) {
@@ -61,7 +79,7 @@ public class BlockListener implements Listener {
 			p.sendMessage(ChatColor.RED + "[PlotGuardian] Invalid sign!");
 		    }
 		} else {
-		    p.sendMessage(ChatColor.RED + "[PlotGuardian] You may only claim " + this.guardian.claimablePlotsPerUser + " plots!");
+		    p.sendMessage(ChatColor.RED + "[PlotGuardian] You may only claim " + plotsCanClaim + " plots!");
 		}
 		sign.update();
 		e.setCancelled(true);

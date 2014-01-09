@@ -300,7 +300,7 @@ public class CommandHandler implements CommandExecutor {
 					    pm.setOwner(arg[1], cs.getName());
 					    cs.sendMessage(ChatColor.DARK_GREEN + "[PlotGuardian] You are now the owner of " + arg[1] + "!");
 					} else {
-					    cs.sendMessage(ChatColor.RED + "[PlotGuardian] You may only claim " + this.guardian.claimablePlotsPerUser + " plots!");
+					    cs.sendMessage(ChatColor.RED + "[PlotGuardian] You may only claim " + this.guardian.GetNumPlotsCanClaim + " plots!");
 					}
 				    } else {
 					cs.sendMessage(ChatColor.RED + "[PlotGuardian] " + arg[1] + " is for sale and may not be claimed!");

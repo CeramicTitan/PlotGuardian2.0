@@ -9,14 +9,13 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import java.me.mshax085.guardian.commands.CommandHandler;
 import java.me.mshax085.guardian.events.BlockListener;
 import java.me.mshax085.guardian.events.PlayerListener;
 import java.me.mshax085.guardian.events.SelectionHandler;
 import java.me.mshax085.guardian.protection.PlotDatabase;
 import net.milkbowl.vault.economy.Economy;
-
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -43,20 +42,7 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
     public int membersPerPlot;
 
     
-    public static int GetNumPlotsCanClaim(p)
-    {
-            int plotsCanClaim = 2;
-            if (p.hasPermission("plotguardian.resident")) plotsCanClaim = 3;
-            if (p.hasPermission("plotguardian.iron")) plotsCanClaim = 3;
-            if (p.hasPermission("plotguardian.silver")) plotsCanClaim = 3;
-            if (p.hasPermission("plotguardian.gold")) plotsCanClaim = 4;
-            if (p.hasPermission("plotguardian.diamond")) plotsCanClaim = 5;
-            if (p.hasPermission("plotguardian.wizard")) plotsCanClaim = 6;
-            if (p.hasPermission("plotguardian.sorceror")) plotsCanClaim = 7;
-            if (p.isOp()) plotsCanClaim = 999;
-
-            return plotsCanClaim;
-    }
+    
 
     @Override
     public void onEnable() {
@@ -188,8 +174,8 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 		this.config.set("useEconomy", Boolean.valueOf(this.useEconomy));
 		this.config.set("membersPerPlot",
 			Integer.valueOf(this.membersPerPlot));
-		this.config.set("claimablePlotsPerUser",
-			Integer.valueOf(this.claimablePlotsPerUser));
+	//	this.config.set("claimablePlotsPerUser",
+	//		Integer.valueOf(this.claimablePlotsPerUser));
 		this.config.set("canDeclaim", Boolean.valueOf(this.canDeclaim));
 		this.config.set("canAddRemoveUsers",
 			Boolean.valueOf(this.canAddRemoveUsers));
