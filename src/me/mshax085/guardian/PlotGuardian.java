@@ -91,14 +91,28 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
     public static int GetNumPlotsCanClaim(CommandSender Sender)
     {
     		int plotsCanClaim = 1;	
-    		if (Sender.hasPermission("plotguardian.default")) plotsCanClaim = 2;
-    		if (Sender.hasPermission("plotguardian.resident")) plotsCanClaim = 3;
-            if (Sender.hasPermission("plotguardian.iron")) plotsCanClaim = 4;
-            if (Sender.hasPermission("plotguardian.silver")) plotsCanClaim = 5;
-            if (Sender.hasPermission("rank.gold")) plotsCanClaim = 6;
-            if (Sender.hasPermission("rank.wizard")) plotsCanClaim = 8;
-            if (Sender.hasPermission("rank.sorceror")) plotsCanClaim = 10;
-            if (Sender.isOp()) plotsCanClaim = 999;
+    		if (Sender.hasPermission("plotguardian.1")) plotsCanClaim = 1;
+    		if (Sender.hasPermission("plotguardian.2")) plotsCanClaim = 2;
+            if (Sender.hasPermission("plotguardian.3")) plotsCanClaim = 3;
+            if (Sender.hasPermission("plotguardian.4")) plotsCanClaim = 4;
+            if (Sender.hasPermission("plotguardian.5")) plotsCanClaim = 5;
+            if (Sender.hasPermission("plotguardian.6")) plotsCanClaim = 6;
+            if (Sender.hasPermission("plotguardian.8")) plotsCanClaim = 7;
+            if (Sender.hasPermission("plotguardian.9")) plotsCanClaim = 8;
+            if (Sender.hasPermission("plotguardian.10")) plotsCanClaim = 9;
+            if (Sender.hasPermission("plotguardian.11")) plotsCanClaim = 10;
+            if (Sender.hasPermission("plotguardian.12")) plotsCanClaim = 11;
+            if (Sender.hasPermission("plotguardian.13")) plotsCanClaim = 12;
+            if (Sender.hasPermission("plotguardian.14")) plotsCanClaim = 13;
+            if (Sender.hasPermission("plotguardian.15")) plotsCanClaim = 14;
+            if (Sender.hasPermission("plotguardian.16")) plotsCanClaim = 15;
+            if (Sender.hasPermission("plotguardian.17")) plotsCanClaim = 16;
+            if (Sender.hasPermission("plotguardian.18")) plotsCanClaim = 17;
+            if (Sender.hasPermission("plotguardian.19")) plotsCanClaim = 18;
+            if (Sender.hasPermission("plotguardian.20")) plotsCanClaim = 19;
+            if (Sender.hasPermission("plotguardian.21")) plotsCanClaim = 20;
+            
+            if (Sender.isOp()) plotsCanClaim = 99;
 
             return plotsCanClaim;
     }
