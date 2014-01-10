@@ -1,4 +1,4 @@
-package java.me.mshax085.guardian.events;
+package me.mshax085.guardian.events;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package java.me.mshax085.guardian.protection;
+package me.mshax085.guardian.protection;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.me.mshax085.guardian.PlotGuardian;
+import me.mshax085.guardian.PlotGuardian;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,13 +32,13 @@ public class PlotDatabase {
 	if (category == null) {
 	    category = this.plots.createSection("plots");
 	}
-	ConfigurationSection cs = category.createSection(name);
-	cs.set("world", world);
-	cs.set("min", min.getBlockX() + ", " + min.getBlockY() + ", " + min.getBlockZ());
-	cs.set("max", max.getBlockX() + ", " + max.getBlockY() + ", " + max.getBlockZ());
-	cs.set("owner", owner);
-	cs.set("members", null);
-	cs.set("price", Integer.valueOf(price));
+	ConfigurationSection Sender = category.createSection(name);
+	Sender.set("world", world);
+	Sender.set("min", min.getBlockX() + ", " + min.getBlockY() + ", " + min.getBlockZ());
+	Sender.set("max", max.getBlockX() + ", " + max.getBlockY() + ", " + max.getBlockZ());
+	Sender.set("owner", owner);
+	Sender.set("members", null);
+	Sender.set("price", Integer.valueOf(price));
 	Plot newPlot = new Plot(world, owner, null, min.getBlockX(), min.getBlockY(), min.getBlockZ(), max.getBlockX(), max.getBlockY(), max.getBlockZ(), price);
 	this.protectedPlots.put(name, newPlot);
 	savePlotsFile();
@@ -50,10 +50,10 @@ public class PlotDatabase {
 	if (category == null) {
 	    category = this.plots.createSection("protectivePlots");
 	}
-	ConfigurationSection cs = category.createSection(name);
-	cs.set("world", world);
-	cs.set("min", min.getBlockX() + ", " + min.getBlockY() + ", " + min.getBlockZ());
-	cs.set("max", max.getBlockX() + ", " + max.getBlockY() + ", " + max.getBlockZ());
+	ConfigurationSection Sender = category.createSection(name);
+	Sender.set("world", world);
+	Sender.set("min", min.getBlockX() + ", " + min.getBlockY() + ", " + min.getBlockZ());
+	Sender.set("max", max.getBlockX() + ", " + max.getBlockY() + ", " + max.getBlockZ());
 	ProtectivePlot newPlot = new ProtectivePlot(world, min.getBlockX(), min.getBlockY(), min.getBlockZ(), max.getBlockX(), max.getBlockY(), max.getBlockZ());
 	this.protectivePlots.put(name, newPlot);
 	savePlotsFile();
@@ -146,13 +146,13 @@ public class PlotDatabase {
 		&& (keys.length > 0)) {
 	    ConfigurationSection category = this.plots.getConfigurationSection("plots");
 	    for (Object key : keys) {
-		ConfigurationSection cs = category.getConfigurationSection(key.toString());
-		String world = cs.getString("world");
-		String[] min = cs.getString("min").split(", ");
-		String[] max = cs.getString("max").split(", ");
-		String owner = cs.getString("owner");
-		String members = cs.getString("members");
-		int price = cs.getInt("price");
+		ConfigurationSection Sender = category.getConfigurationSection(key.toString());
+		String world = Sender.getString("world");
+		String[] min = Sender.getString("min").split(", ");
+		String[] max = Sender.getString("max").split(", ");
+		String owner = Sender.getString("owner");
+		String members = Sender.getString("members");
+		int price = Sender.getInt("price");
 		try {
 		    Plot newPlot = new Plot(world, owner, members, Integer.parseInt(min[0]), Integer.parseInt(min[1]), Integer.parseInt(min[2]), Integer.parseInt(max[0]), Integer.parseInt(max[1]), Integer.parseInt(max[2]), price);
 		    this.protectedPlots.put(key.toString(), newPlot);
@@ -168,10 +168,10 @@ public class PlotDatabase {
 		&& (keys.length > 0)) {
 	    ConfigurationSection category = this.plots.getConfigurationSection("protectivePlots");
 	    for (Object key : keys) {
-		ConfigurationSection cs = category.getConfigurationSection(key.toString());
-		String world = cs.getString("world");
-		String[] min = cs.getString("min").split(", ");
-		String[] max = cs.getString("max").split(", ");
+		ConfigurationSection Sender = category.getConfigurationSection(key.toString());
+		String world = Sender.getString("world");
+		String[] min = Sender.getString("min").split(", ");
+		String[] max = Sender.getString("max").split(", ");
 		try {
 		    ProtectivePlot plot = new ProtectivePlot(world, Integer.parseInt(min[0]), Integer.parseInt(min[1]), Integer.parseInt(min[2]), Integer.parseInt(max[0]), Integer.parseInt(max[1]), Integer.parseInt(max[2]));
 		    this.protectivePlots.put(key.toString(), plot);
@@ -204,22 +204,22 @@ public class PlotDatabase {
 	} else {
 	    category = this.plots.createSection("plots");
 	}
-	ConfigurationSection cs;
+	ConfigurationSection Sender;
 	if (category.contains(plotName)) {
-	    cs = category.getConfigurationSection(plotName);
+	    Sender = category.getConfigurationSection(plotName);
 	} else {
-	    cs = category.createSection(plotName);
+	    Sender = category.createSection(plotName);
 	}
-	cs.set("world", plot.world);
-	cs.set("min", plot.minX + ", " + plot.minY + ", " + plot.minZ);
-	cs.set("max", plot.maxX + ", " + plot.maxY + ", " + plot.maxZ);
-	cs.set("owner", plot.owner);
+	Sender.set("world", plot.world);
+	Sender.set("min", plot.minX + ", " + plot.minY + ", " + plot.minZ);
+	Sender.set("max", plot.maxX + ", " + plot.maxY + ", " + plot.maxZ);
+	Sender.set("owner", plot.owner);
 	String members = plot.members;
 	if ((members != null) && (members.length() <= 0)) {
 	    members = null;
 	}
-	cs.set("members", members);
-	cs.set("price", Integer.valueOf(plot.price));
+	Sender.set("members", members);
+	Sender.set("price", Integer.valueOf(plot.price));
 	savePlotsFile();
 	return true;
     }
@@ -232,15 +232,15 @@ public class PlotDatabase {
 	} else {
 	    category = this.plots.createSection("protectivePlots");
 	}
-	ConfigurationSection cs;
+	ConfigurationSection Sender;
 	if (category.contains(plotName)) {
-	    cs = category.getConfigurationSection(plotName);
+	    Sender = category.getConfigurationSection(plotName);
 	} else {
-	    cs = category.createSection(plotName);
+	    Sender = category.createSection(plotName);
 	}
-	cs.set("world", plot.world);
-	cs.set("min", plot.minX + ", " + plot.minY + ", " + plot.minZ);
-	cs.set("max", plot.maxX + ", " + plot.maxY + ", " + plot.maxZ);
+	Sender.set("world", plot.world);
+	Sender.set("min", plot.minX + ", " + plot.minY + ", " + plot.minZ);
+	Sender.set("max", plot.maxX + ", " + plot.maxY + ", " + plot.maxZ);
 	savePlotsFile();
 	return true;
     }

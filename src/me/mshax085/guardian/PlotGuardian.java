@@ -1,20 +1,18 @@
-package java.me.mshax085.guardian;
+package me.mshax085.guardian;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.me.mshax085.guardian.commands.CommandHandler;
-import java.me.mshax085.guardian.events.BlockListener;
-import java.me.mshax085.guardian.events.PlayerListener;
-import java.me.mshax085.guardian.events.SelectionHandler;
-import java.me.mshax085.guardian.protection.PlotDatabase;
+
+import me.mshax085.guardian.commands.CommandHandler;
+import me.mshax085.guardian.events.BlockListener;
+import me.mshax085.guardian.events.PlayerListener;
+import me.mshax085.guardian.events.SelectionHandler;
+import me.mshax085.guardian.protection.PlotDatabase;
 import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,7 +28,7 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
     private SelectionHandler selectionHandler;
     private FileConfiguration config;
     private File configFile;
-    public Economy economy;
+    public static Economy economy = null;
     public boolean checkForUpdates;
     public boolean useEconomy;
     public boolean canDeclaim;
@@ -40,9 +38,8 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
     public boolean disallowBlockInteractionsOutsidePlots;
     public List<Integer> disallowedInteractions;
     public int membersPerPlot;
-
-    
-    
+    public int claimablePlotsPerUser;   
+   
 
     @Override
     public void onEnable() {
@@ -50,7 +47,7 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	writeToConfig(false);
 	loadConfigContent();
 	if (this.useEconomy) {
-	    sendLog("Loading Vault ...");
+	    sendLog("Loading Vault for PlotGuardian...");
 	    if (!setupEconomy()) {
 		log.warning("[PlotGuardian " + getDescription().getVersion()
 			+ "] Could not find any Vault dependency!");
@@ -67,16 +64,7 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	pm.registerEvents(new PlayerListener(this), this);
 	getCommand("plot").setExecutor(new CommandHandler(this));
 	sendLog("Plugin enabled!");
-	if (this.checkForUpdates) {
-	    new Thread(this).start();
-	}
-	try {
-	    MetricsLite metrics = new MetricsLite(this);
-	    metrics.start();
-	} catch (IOException e) {
-	}
     }
-
     @Override
     public void onDisable() {
 	saveConfigFile();
@@ -100,7 +88,20 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	}
 	return this.selectionHandler;
     }
+    public static int GetNumPlotsCanClaim(CommandSender Sender)
+    {
+    		int plotsCanClaim = 1;	
+    		if (Sender.hasPermission("plotguardian.default")) plotsCanClaim = 2;
+    		if (Sender.hasPermission("plotguardian.resident")) plotsCanClaim = 3;
+            if (Sender.hasPermission("plotguardian.iron")) plotsCanClaim = 4;
+            if (Sender.hasPermission("plotguardian.silver")) plotsCanClaim = 5;
+            if (Sender.hasPermission("rank.gold")) plotsCanClaim = 6;
+            if (Sender.hasPermission("rank.wizard")) plotsCanClaim = 8;
+            if (Sender.hasPermission("rank.sorceror")) plotsCanClaim = 10;
+            if (Sender.isOp()) plotsCanClaim = 999;
 
+            return plotsCanClaim;
+    }
     private void loadConfigContent() {
 	if (this.config != null) {
 	    this.checkForUpdates = this.config.getBoolean("checkForUpdates");
@@ -117,8 +118,8 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	    this.disallowedInteractions = this.config
 		    .getIntegerList("disallowedInteractionsWithBlockIds");
 	    this.membersPerPlot = this.config.getInt("membersPerPlot");
-//	    this.claimablePlotsPerUser = this.config
-//		    .getInt("claimablePlotsPerUser");
+	  //  this.claimablePlotsPerUser = this.config
+		//    .getInt("claimablePlotsPerUser");
 	} else {
 	    loadConfigFile();
 	}
@@ -162,8 +163,8 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	if (rsp == null) {
 	    return false;
 	}
-	this.economy = rsp.getProvider();
-	return this.economy != null;
+	PlotGuardian.economy = rsp.getProvider();
+	return PlotGuardian.economy != null;
     }
 
     private void writeToConfig(boolean renew) {
@@ -174,8 +175,8 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 		this.config.set("useEconomy", Boolean.valueOf(this.useEconomy));
 		this.config.set("membersPerPlot",
 			Integer.valueOf(this.membersPerPlot));
-	//	this.config.set("claimablePlotsPerUser",
-	//		Integer.valueOf(this.claimablePlotsPerUser));
+		this.config.set("claimablePlotsPerUser",
+			Integer.valueOf(this.claimablePlotsPerUser));
 		this.config.set("canDeclaim", Boolean.valueOf(this.canDeclaim));
 		this.config.set("canAddRemoveUsers",
 			Boolean.valueOf(this.canAddRemoveUsers));
@@ -193,7 +194,7 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 		    this.config.set("checkForUpdates", Boolean.valueOf(true));
 		}
 		if (!this.config.contains("useEconomy")) {
-		    this.config.set("useEconomy", Boolean.valueOf(false));
+		    this.config.set("useEconomy", Boolean.valueOf(true));
 		}
 		if (!this.config.contains("membersPerPlot")) {
 		    this.config.set("membersPerPlot", Integer.valueOf(5));
@@ -229,8 +230,13 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	    }
 	}
     }
-}
-   /* public void run() {
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /*public void run() {
 	String address = "http://consiliumcraft.com/plugins/pguard.html";
 	try {
 	    URL url = new URL(address);
@@ -253,5 +259,5 @@ public class PlotGuardian extends JavaPlugin implements Runnable {
 	} catch (IOException ex) {
 	    sendLog("Could not check for latest version: " + ex.getMessage());
 	}
-    }
-}*/
+    }*/
+}

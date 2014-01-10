@@ -1,4 +1,4 @@
-package java.me.mshax085.guardian.protection;
+package me.mshax085.guardian.protection;
 
 public class Plot {
 

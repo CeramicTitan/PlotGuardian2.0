@@ -1,8 +1,8 @@
-package java.me.mshax085.guardian.events;
+package me.mshax085.guardian.events;
 
-import java.me.mshax085.guardian.PlotGuardian;
-import java.me.mshax085.guardian.protection.Plot;
-import java.me.mshax085.guardian.protection.PlotManager;
+import me.mshax085.guardian.PlotGuardian;
+import me.mshax085.guardian.protection.Plot;
+import me.mshax085.guardian.protection.PlotManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
