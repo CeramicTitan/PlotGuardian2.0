@@ -1,0 +1,50 @@
+name: PlotGuardian2.0
+version: 1.0a
+author: DaddyEric
+main: com.daddyeric.guardian.PlotGuardian
+
+depend: [Vault]
+commands:
+  plot:
+    description: The main command, use this to display all commands
+
+permissions:
+    plotguardian.build.interactAny:
+        description: Allow a specific user to interact with any block despite restrictions
+        default: op
+    plotguardian.build.anywhere:
+        description: Allow a specific user to build anywhere
+        default: op
+    plotguardian.diamondselector:
+      description: Allow a specific user to use the diamond selector
+      default: op
+    plotguardian.blazerod:
+      description: Allow a specific user to use the blazerod tool
+      default: op
+    plotguardian.create:
+      description: Allow a specific user to create a plot
+      default: op
+    plotguardian.delete:
+      description: Allow a specific user to delete a plot
+      default: op
+    plotguardian.clear:
+      description: Allow a specific user to reset all values for a plot
+      default: op
+    plotguardian.sale:
+      description: Allow a specific user to put a plot on/off sale
+      default: op
+    plotguardian.claim:
+      description: Allow a specific user to claim a plot
+      default: true
+    plotguardian.declaim:
+      description: Allow a specific user to declaim a plot
+      default: true
+    plotguardian.addmember:
+      description: Allow a specific user to add a member
+      default: true
+    plotguardian.removemember:
+      description: Allow a specific user to remove a member
+      default: true
+    plotguardian.list:
+      description: Allow a specific user to his/her plots
+      default: true
